@@ -14,7 +14,6 @@ For Second Time
 C:\Learn_Java> git add .
 C:\Learn_Java> git status -> jsut to check the files we are commiting
 C:\Learn_Java> git commit -m "Day 1"
-C:\Learn_Java> git remote add origin https://github.com/sadusurendra/LearnJava.git
 C:\Learn_Java> git push -u origin master
 
 #JDK, JRE, JVM
