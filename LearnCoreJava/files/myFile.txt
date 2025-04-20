@@ -1,0 +1,4 @@
+Welcome to IO Streams
+String is Immutable, StringBuffer and StringBuilder are mutable
+String and StringBuilder are Thread Safe, StringBuffer is not Thread Safe
+String and StringBuffer are Synchronized and StringBuilder is not Synchronized

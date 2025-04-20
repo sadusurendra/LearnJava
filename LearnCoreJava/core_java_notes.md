@@ -224,11 +224,10 @@ S.No.`~`Abstract Class`~`Interface
 1. An abstract class can contain both abstract and non-abstract methods.`~`Interface contains only abstract methods.
 2. An abstract class can have all four; static, non-static and final, non-final variables.`~`Only final(constant) and static variables are used and should be initialized.
 3. To declare abstract class abstract keywords are used.`~`The interface can be declared with the interface keyword.
-4. It supports multiple inheritance.`~`It does not support multiple inheritance.
-5. The keyword ‘extend’ is used to extend an abstract class`~`The keyword implement is used to implement the interface.
-6. It has class members(variables & methods) like private and protected, etc.`~`It has class members(variables & methods) public by default.
-7. can declare constructor in abstract class `~` Cannot declare constructor in interface.
-8. can define Blocks {} `~` cannot declare blocks
+4. The keyword ‘extend’ is used to extend an abstract class`~`The keyword implement is used to implement the interface.
+5. It has class members(variables & methods) like private and protected, etc.`~`It has class members(variables & methods) public by default.
+6. can declare constructor in abstract class `~` Cannot declare constructor in interface.
+7. can define Blocks {} `~` cannot declare blocks
 
 > final and abstract cannot be used at a time
 	public final abstract class BMW -> it will thorw error can be used either abstract or final
@@ -237,6 +236,13 @@ S.No.`~`Abstract Class`~`Interface
 > We must override the abstract methods
 > We cannot create object for Abstract classes
 `BMW`
+
+#interface
+> if we use create object with interface we cannot access class specific methods using that interface object
+`CarTest`
+> Object down casting happens explicitly
+> A class can implement multiple interfaces. If a variable same in both interface we need to use interface name before the variable. if price is same in both interface car1 and car2 we need to use price in class like car1.price
+> run time polymorphism works with interfaces
 
 #final
 If we mark final for class, we cannot inherit that class.
@@ -248,8 +254,391 @@ If we mark final for method, we cannot override.
 
 
 
+#Polymorphism
+Poly means multi and morphic means shapes.
+if an object of a class can behave differently while communicating with different objects, then that is polymorphism. 
+There are two types of polymorphism in Java,Compile time polymorphism or Static binding, Runtime polymorphism or Dynamic binding.
+
+Complie time polymorphism -> method overloading
+Run time polymorphism -> method overriding
+> run time polymorphism works with interfaces
+> we can access static methods also with Child class
+
+> Automatic promotion of overloading happens in Java. When there is no specific datatype it promotes to next version of datatype.
+`AutoPromotion`
+
+# Polymorphism with Method and Variable overloading
+`AutoPromotion`
+
+> Methods resolution happens at run time
+> Variables resolution happens at compile time
+		
+		Parent p = new Parent();
+		System.out.println(p.s); // Parent
+
+		Child c = new Child();
+		System.out.println(c.s); // Child
+
+		Parent pc = new Child();
+		System.out.println(pc.s); // Parent
+		pc.methodoverload() // Child methodoverload
+		  // If it's method it will invoke child method. But variable is invoked from 				Parent itself
+		  
+#Encapsulation
+
+Encapsulation helps to protect data and control access to it.
+It protects sensitive data from being access directly.
+It hides unnecessary data from the user of a class, and only shows the functionality of a class.
+Changes can be made internally without affecting the external interface.
+It is easier to scale applications because it provides flexibility to add or modify features without impacting the entire codebase.
+Encapsulated classes can be reused across projects.
+
+
+
+> simply means binding object state(fields) and behavior(methods) together. If you are creating class, you are doing encapsulation.
+> encapsulation is the process of binding the data and code together or properties and methods together so that only those methods can access those properties
+
+Encapsulation helps to secure the data by making variables as private and provide them access with getters and setters.
+
+he data and
+
+code together or properties and methods together so that only those methods can access those properties
+
+#Exception
+
+Hierarchy:
+					Throwable
+	Error 						Exception
+		StackOverflowError			IOException
+		OutofMemoryError			SQLException
+		VirtualMachineError			FileNotFoundException
+		NoClassDefinitionError		ClassNotFoundException
+		NoSuchMethodError			RuntimeExcpetion
+										ArthimeticEcxception
+										NullPointerException
+										ArrayIndexOutofBound
+										IllegalArgumentException
+
+
+> the exceptions which directly inherit Exception are checked exceptions. Means we must handle exception, otherwise the IDE show error. means the class won't compile.
+> the exceptions which inherit RunTimeException are unchecked exceptions. We will know this exceptions while executing the program.
+
+>A `StackOverflowError` in Java is an error, not an exception, and it occurs when a thread’s call stack exceeds its limit, typically due to deep or infinite recursion. It falls under the Error class, which is a subclass of Throwable, parallel to Exception, and it is part of the java.lang package. Since it’s an error and not a checked or unchecked exception, it is generally not meant to be caught or handled in application code, as it indicates a serious problem with the program’s flow or recursion logic.
 
 
 
 
 
+> throw  keyword is used to declare exception
+> throws keyword is used to throw the exception
+
+> Popular exceptions
+`ArrayIndexOutofBoundDemo, NullPointerDemo, StackOverFlowDemo`
+`ClassCastDemo, StaticBlockInitialization(ExceptionInInitializerError), IllegalArgumentDemo `
+
+
+> Quiz
+A checked exception should be handle with a try-catch or declared using -> throws clause
+
+
+#Multi-Threading
+> We can implement multi-threading in two ways
+	-Extend Thread class
+	-Implement Runnable interface
+
+####Thread  `corejava.a9.thread`
+> For Thread staring point is run(), but we have to invoke .start()
+> Thread.sleep(1000) -> Takes input in milliseconds, We must handle the exception. Checked Exception.
+> .join() is to ensure a thread's completion before another thread proceeds
+> .setName("") is used to set the Name for thread
+> .setPriority(1) is used to set the priority. We can use only 1 to 10 in priority. We can use MIN_PRIORITY for low, MAX_PRIORITY for high. Even though we mention the priority still there is no guarantee that they will execute in order. It's upto the JVM implementation. 
+--5 is the default priority of a Thread
+> .yield() method of thread class causes the currently executing thread object to temporarily pause and allow other threads to execute. `YieldDemo`
+> .interrupt(), .isinterrupted() `https://www.tpointtech.com/interrupting-a-thread` `InterruptDemo`
+  - If any thread is in sleeping or waiting state (i.e. sleep() or wait() is invoked), calling the interrupt() method on the thread, breaks out the sleeping or waiting state throwing InterruptedException. If the thread is not in the sleeping or waiting state, calling the interrupt() method performs normal behaviour and doesn't interrupt the thread but sets the interrupt flag to true. 
+  - After breaking sleep it will continue to run code available after catch block.
+  - If we don't have sleep or wait method the code executes normally. in background it sets interrupt flag to true.
+> .wait(), .notify(), .notifyAll()  `corejava.a9.thread.InterThreadCommunication`
+> We can group the threads `ThreadGroupDemo`
+> .activeCount() -> To get the active running threads
+> .list() -> To list running threads
+> .setDaemon() -> Daemon thread in Java is a service provider thread that provides services to the user thread. Its life depend on the mercy of user threads i.e. when all the user threads dies, JVM terminates this thread automatically. There are many java daemon threads running automatically e.g. gc, finalizer etc.
+> `DeadLockDemo` Dead lock - A deadlock in Java occurs when two or more threads are blocked indefinitely, each waiting for a resource held by another thread, creating a circular waiting pattern
+
+####Runnable `RunnableThreadExample`
+> we have create object of class and pass it to Thread and use .start() to start the thread. we cannot directly use .start() on the object.
+> We can reuse the same object for multiple thread
+
+####Difference between Thread and Runnable
+>When we extend Thread class, we can’t extend any other class even we require and When we implement Runnable, we can save a space for our class to extend any other class in future or now.
+>When we extend Thread class, each of our thread creates unique object and associate with it. When we implements Runnable, it shares the same object to multiple threads.
+
+
+
+#Synchronization
+###Method level lock
+> When multiple threads are accessing the same object simultaneously, then they may corrupt each other's data.
+ We use the synchronized keyword and mark a method as synchronized.
+ The very first thread that access this method will have a lock on that object. Other objects has to wait for this thread to complete the execution. Till the they will be in Wait state.
+ 
+ Class X {
+ 	synchronized m1();
+ 	synchronized m2();
+				 m3();
+ }
+ 
+ Thread-1 accessed m1();
+ Thread-2 trying to access m1() and finds lock on m1() by Thread-1, so Thread-2 goes to wait state.
+ Thread-3 trying to access m2() and finds lock on m1() by Thread-1, so Thread-2 also goes to Wait state.
+ > Even though Thread-3 tried to access m2(); it goes for Wait state
+ Thread-4 trying to access m3(), it will immediately access as it does not have synchronized.
+`SynchronizedThreadDemo` 
+
+###Class level lock
+> Class X {
+ 	synchronized static m1();
+ 	synchronized static m2();
+				 static m3();
+		   synchronized m4();
+		   				m5()
+ }
+ Thread-1 accessed m1();
+ Thread-2 trying to access m1() and finds lock on m1() by Thread-1, so Thread-2 goes to wait state.
+ Thread-3 trying to access m2() and finds lock on m1() by Thread-1, so Thread-2 also goes to Wait state.
+ > Even though Thread-3 tried to access m2(); it goes for Wait state
+ Thread-4 trying to access m3(), it will immediately access as it does not have lock on class level.
+ Thread-5 trying to access m4(), it will immediately access as it does not have lock on class level.
+ Thread-6 trying to access m5(), it will immediately access as it does not have lock on class level.
+> It means class level lock happens on static methods
+
+###Synchronized block
+	m1() {
+		-- some code  // this code can be executed by all threads
+		synchronized(this){ // Here first thread gets lock and other threads go to Wait state
+		
+		}
+		--some code // This code can be executed after synchronized(this) block completed
+	}
+	
+> we have different ways to use synchronized block
+	synchronized(this){ // It gets lock for entire object
+		
+	}
+	synchronized(x){ // It gets lock for specific object
+		
+	}
+	synchronized(Demo.class){ // It gets lock for entire class. means we cannot access synchronized static methods till this block completes the execution
+		
+	}
+	synchronized(new Demo()){ // We can pass object also. works same as Demo.class
+		
+	}
+	
+#ThreadPool
+`ExecutorDemo`
+
+#Callable
+> Callable is similar to Runnable, but here we can return value from thread and in the form of Future Object.
+> we can use future.get() to get the original return value.
+> when we invoke future.get() it throws InterruptedException | ExecutionException | CancellationException
+> Callable uses call() method instead of run()
+> Callable<V> we can specify the type value to return
+
+public class MyCallable implements Callable<Integer>{
+
+public Integer call() throws Exception {
+
+`CallableFutureDemo`
+
+#calculate time
+int start = System.curretnTimeMillis();
+<Code goes here>
+int end = System.curretnTimeMillis();
+ sout( (start-end)/1000 +" in seconds")
+ 
+#Garbage Collection
+> The process by which the Java Virtual Machine automatically clears the memory allocated to a particular object is called garbage collection.
+> The garbage collector is a demon thread that runs within the JVM in the background and garbage collects the objects when they are unreachable.
+>Finalize method on the object is called by the JVM just before garbage collection
+`GCDemo`
+>System.gc() -> used to request for Garbage Collection. We cannot depend on this because it may/may not work `InvokeGCDemo`
+
+#Inner Classes
+> Static Inner Classes `Outer`
+> Non-Static Inner Classes `Outer`
+> Local Inner Classes `LocalInnerDemo`
+> Anonymous Inner Classes Ex: Connection con = DriverManager.getConnection() `TestConnection`
+	Anonymous Runnable Thread `AnonymousRunnable`
+
+#String
+> String is Immutable
+	String s = "Hello";  	Image it stored in Location 123
+	s = "world";		When we assign new value it will not replace the existing instead it will create in new location for example 456 and s will point to that 456 location.
+> Advantages of Immutability
+	- Performance
+	- Thread Safety - If one string changes the value, it will not effect other strings.
+> String s1="Hello";
+	String s2="Hello"; Both points to same memory location.
+JVM puts all the Strings in a special area called String pool. Because of this performance is improved. 
+
+> s.hashcode() - Return an int value, representing the hash code of the string
+	- helps to prove JVM is using string pool to store Strings
+	String s1="Hello";
+	String s2="Hello";  
+	s1.hashCode() //96354
+	s2.hashCode() //96354
+	- That means both Strings are pointing to same location
+	
+	String s1=new String("Hello");
+	String s2=new String("Hello")
+	s1.hashCode() //96354
+	s2.hashCode() //85462
+	- If we use new String it will create objects in different memory locations
+> == checks memory locations, .equals compares content
+
+#StringBuffer
+> StrinBuffer has default capacity is 16 bytes
+> We can specify the required capacity while initialization. We can specify from 0 to required space
+	StringBuffer sb = new StringBuffer(0);	
+`StringBufferDemo`
+
+#StringBuilder 
+> StringBuilder is same as String buffer
+
+#Difference between String, StringBuffer, StringBuilder
+> String is Immutable, StringBuffer and StringBuilder are mutable
+> String and StringBuilder are Thread Safe, StringBuffer is not Thread Safe
+> String and StringBuffer are Synchronized and StringBuilder is not Synchronized
+
+`ImmutableClassDemo`
+
+#IO Streams
+`corejava.aa12.iostreams`
+ByteStreams: Read one byte at a time
+	- InputStream
+	- OutputStream
+	- FileInputStream
+	- FileOutputStream
+CharacterStreams: Read one character at a time
+	- Reader
+	- Writer
+	- FileReader
+	- FileWriter
+BufferedStreams: Reads one line at a time
+	- BuffereredReader
+	- BufferedWriter
+ObjectStreams: To Serialize and De-serialize data
+	- ObjectInputStream
+	- ObjectOutputStream
+
+> `File` is used to load the file
+> IO streams throws `FileNotFoundException, IOException`
+
+#Object methods
+> toString
+	- by default if we print Object we get output like corejava.aa14.objectClassMethods.Passenger@24d46ca6
+	- By If we override toString in Entity class we can print the output in the format we like
+> hashCode
+	- 1406718218
+	- 138 --> return this.ticketId + this.name.length() + this.age;
+> equals
+	- p.equals(p2) -> false
+	- If we implement equals method in Entity. We can compare two objects values. So that it return true.
+	- The default implementation of equals method in the Object class compares the object references
+	- If the hashcode value of two objects is same then the equals may or may not be true
+
+
+#Collections
+java.util.Collection
+	-List
+		-ArrayList -->Read is Fast, Insert and Delete is slow. Continuous Memory allocation
+		-LinkedList -->Random memory Allocation. Insert and Delete are fast. Read is slow
+		-Vector -> legacy
+	-Set
+		-HashSet -->HashSet Doesn't maintain order
+			-LinkedHashSet -->LinkedHashSet maintains the order in which the elements are added.
+		-SortedSet
+			-NavigableSet
+				-TreeSet --> Sort the data in Set
+	-Queue
+		-PriorityQueue
+	-Map
+		-HashMap
+			-LinkedHashMap
+		-SortedMap
+			-TreeMap
+		-HashTable -> legacy
+	 
+`ArrayList:`
+	-Read is Fast, Insert and Delete is slow. Continuous Memory allocation
+	-Actually we don't need to specify size for ArrayList.
+	-If we don't specify size, By Default ArrayList allocates size of 10
+	-If we go beyond capacity the ArrayList will create another ArrayList with one and half size of the existing ArrayList and copy the data from Existing to New Object.
+	-So that why it's best practice to specify the size before if we know. 
+	-If we specify the size ArrayList stops creating new ArrayList every time size is increasing.
+	-we can Different type of data in ArrayList 
+		ArrayList a = new ArrayList(Arrays.asList(123, 123.45, "Hello"));
+	-Some important methods
+		-`a.add("Hi");` --> To appened new element at the end of the index
+		-`a.add(1, "World");` --> to add a new element at specific index in the range of ArrayList Size(), 
+			If we add beyond size it throws error 
+			a.add(100, "World");->java.lang.IndexOutOfBoundsException: Index: 100, Size: 4
+		-`a.addAll(b);` --> to add existing list to another list at the end
+		-`a.addAll(2, b);` --> to add existing list to another list at the specified index
+		-`a.set(2, "!");` --> to replace the value at specific index
+		-`a.contains(123)` --> return true if value found or false value not found
+		-`a.size()` --> to get the size on an ArrayList
+		-`a.get(i);` --> to get the data at a particular index
+		-`a.remove(1);` --> to remove the data at a particular index
+  `ArrayListDemo`
+	
+`LinkedList:`
+	-Each node has three values. 
+		-Previous node memory location
+		-Value
+		-Next node memory location
+	-Random memory Allocation
+	-Insert and Delete are fast. Read is slow
+
+`Set:`
+	-Duplicates are not allowed
+	-`LinkedHashSet` maintains the order in which the elements are added. `HashSet` Doesn't maintain order
+	-`TreeSet` will sort the data from ascending order
+  `HashSetDemoWithRandom`
+	-`TreeSet` with StringBuffer works from Java 11 Before Java 11 It throws  
+		Exception in thread "main" java.lang.ClassCastException: java.lang.StringBuffer cannot be cast to java.lang.Comparable
+	-
+
+`Iterator:`
+	-Iterator is used to iterate through collections
+		-Iterator<Integer> li = l.iterator();
+	-li.hasNext() used to check the next value present or not
+	-li.next() is used to get the value
+	-li.remove() is used to remove the value from main object
+  `IteratorDemo`
+
+`ListIterator:`
+	-it is same as `Iterator`. But it works only for 
+	- Additionally it have hasPrevious() and previous() to `iterate from backwards`.
+
+`Random:`
+	-available in java.util
+	-Used to generate Random number using r.nextInt(), r.nextFloat() etc.
+
+`Comparable and Comparator:`
+	-Both are interfaces
+	-Comparable: It is used to define the natural ordering of the objects within the class.
+		-It implements Comparable interface from java.lang	
+	-Comparator: It is used to define custom sorting logic externally
+		-It implements Comparator interface from java.util and override compare(obj1,obj2)
+	-Sorting happen for both Comparable and Comparator like
+		-Ex: ob1.compareTo(obj2)
+			- -ve value if obj1 has to come before obj2
+			- +ve value if obj1 has to come after obj2
+			- 0 if both obj1 and obj2 are same
+  `StringComparatorDemo`
+	- Difference between
+		-`Comparable` `affects the original class, i.e., the actual class is modified. Because we implement this interface with in the class
+		-`Comparator` doesn't affect the original class, i.e., the actual class is not modified. We write separate class and use it to sort.
+		
+	
