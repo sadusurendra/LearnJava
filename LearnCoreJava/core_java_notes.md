@@ -4,8 +4,8 @@
 > cd that folder -> C:\Learn_Java
 C:\Learn_Java> git init
 C:\Learn_Java> git add .
-C:\Learn_Java> git status -> jsut to check the files we are commiting
-C:\Learn_Java> git commit -m "Day 1"
+C:\Learn_Java> git status -> just to check the files we are commiting
+C:\Learn_Java> git commit -m "Day 4"
 C:\Learn_Java> git remote add origin https://github.com/sadusurendra/LearnJava.git
 C:\Learn_Java> git push -u origin master
 
@@ -549,10 +549,10 @@ ObjectStreams: To Serialize and De-serialize data
 
 
 #Collections
-java.util.Collection
+java.util.Collection -> all are implements top level interface
 	-List
 		-ArrayList -->Read is Fast, Insert and Delete is slow. Continuous Memory allocation
-		-LinkedList -->Random memory Allocation. Insert and Delete are fast. Read is slow
+		-LinkedList -->Random memory Allocation. Insert and Delete are fast. Read is slow. Implements Queue also
 		-Vector -> legacy
 	-Set
 		-HashSet -->HashSet Doesn't maintain order
@@ -561,14 +561,25 @@ java.util.Collection
 			-NavigableSet
 				-TreeSet --> Sort the data in Set
 	-Queue
-		-PriorityQueue
-	-Map
+		-LinkedList -> First-in-First-out
+		-PriorityQueue -> We can implement Comparator and change order
+		-BlockingQueue ->extends which falls under concurrent collections
+
+java.util.Map -> Map doesn't implement Collections. It's an interface of it's own.	
+-Map
+	- implements by
 		-HashMap
-			-LinkedHashMap
-		-SortedMap
-			-TreeMap
-		-HashTable -> legacy
-	 
+			-LinkedHashMap  ->extends
+		-IdentityHashMap
+		-WeakHashMap
+	- extends by 
+		-SortedMap 
+			-NavigableMap ->extends
+				-TreeMap  ->extends
+		-Dictionary - abstract class
+			-HashTable ->extends, legacy
+				-Properties ->extends, legacy
+ 
 `ArrayList:`
 	-Read is Fast, Insert and Delete is slow. Continuous Memory allocation
 	-Actually we don't need to specify size for ArrayList.
@@ -607,7 +618,11 @@ java.util.Collection
   `HashSetDemoWithRandom`
 	-`TreeSet` with StringBuffer works from Java 11 Before Java 11 It throws  
 		Exception in thread "main" java.lang.ClassCastException: java.lang.StringBuffer cannot be cast to java.lang.Comparable
-	-
+	- ceiling() --> upper bound, floor() --> lower bound
+	- higher() --> higher than given input,  lower() -> lower than given input
+	- pollFirst() --> return and remove first element, pollLast() --> return and remove last element
+	- descendingSet() --> By default TreeSet sorted in Ascending order(low->high), descendingSet is used to sort in Descending order(high->low)
+	`NavigableTreeSetDemo`
 
 `Iterator:`
 	-Iterator is used to iterate through collections
@@ -640,5 +655,110 @@ java.util.Collection
 	- Difference between
 		-`Comparable` `affects the original class, i.e., the actual class is modified. Because we implement this interface with in the class
 		-`Comparator` doesn't affect the original class, i.e., the actual class is not modified. We write separate class and use it to sort.
+	
+`Map`
+	-In Map both key and value are objects.
+	-Combination of key,value is Entry 	
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("Jhon", 70);
+		map.put("Tom", 60);
+		map.put("Brad", 90);
+		map.put("Lee", 80);
+		for (String key : map.keySet()) {
+			System.out.println(key + " :: " + map.get(key));
+		}
+	-.put(key,val) ->is used to add new value/ replace existing value baed on key
+	-.keySet() ->is used to get the Collection of keys in the object
+	-.values() ->is used to get the Collection of values in the object
+	-.get() ->is used to get the value based on key
+	-.getOrDefault() ->is used to get the value based on key, If value not present it return default value
+###Differences
+	
+-The only difference between `HashMap` and `LinkedHashMap` is HashMap does maintain order. LinkedHashMap maintains order in which objects are added.
+-The only difference between `HashMap` and `IdentityHashMap` is HashMap uses .equals to compare keys. IdentityHashMap uses == to compare keys
+	-which means If value 10 presents at location 123 and 456.
+	-HashMap compare the value create only one key.
+	-But IdentityHashMap compares memory location so it creates two keys even though same value is available.
+-If object is specified as key in HashMap,even though it doesn't have nay reference(i.e. u=null), it is not eligible for Garbage Collection. HashMap dominate over GC.
+-In case of `WeakHashMap`, if object is specified as key doesn’t contain any references- it is eligible for garbage collection even though it is associated with WeakHashMap. i.e Garbage Collector dominates over WeakHashMap.
+
 		
+  `HashMapDemo` `IdentityHashMapDemo` `WeakHashMapDemo`
+
+#Queue
+- Some important functions
+	-boolean offer(Object o) -> used to add the objects or elements to the queue
+	-Object peek() -> return first or head element of the queue. If there are no elements in the queue it return null
+	-Object element() -> same as peek(). But if there are no elements  in the queue it throws NoSuchElementException
+	-Object poll() -> It removes and return the the first or head element. If there are no elements in the queue it return null
+	-Object remove() -> same as poll(). But if there are no elements  in the queue it throws NoSuchElementException
+
+-Difference between add() and offer()
+	-The two functions come from two different interfaces that PriorityQueue implements:
+		-add() comes from Collection.
+		-offer() comes from Queue.
+-For a capacity-constrained queue, the difference is that add() always returns true and throws an exception if it can't add the element, whereas offer() is allowed to return false if it can't add the element.
+-However, this doesn't apply to PriorityQueue; the two functions are synonymous.
+
+`PriorityQueue`
+	-Does not allow duplicates.
+	-Does not allow null.
+	-Does not maintain order of insertion
+	-Follows default natural sorting order. In case of object, must implement comparable and override compareTo(), otherwise throws ClassCastException
+	-We can also use customized sorting order by implementing Comparator and pass it to the PriorityQueue Constructor.
+	`PriorityQueueDemo` 
+
+
+#Static methods for Collection
+-There are two inbuilt utility classes which has several static methods that can operate on Collections and Arrays. They are 
+	-Collections class from java.util
+	-Arrays from java.util
+-It offers several methods
+	-sort(List l) -> to sort the elements in a List
+	-binarySearch(List l,T t) 
+		-> it can perform binary search on the List and it can find out where a particular element in the List. If not found it gives -ve value.
+		-> it return the index of the element. If there are duplicates it will return the first index on the element.
+	-reverse(List l) -> reverse the elements in the List
+	`CollectionsUtilDemo` 
+- These methods will impact the Original List
+-Arrays.sort(int[] a);, Arrays.sort(int[] a,Comparator);
+-Convert Array to List
+	-List<String> la = Arrays.asList(sa); --> we cannot add new item because List still points String[]
+	-new ArrayList(Arrays.asList(123, 123.45, "Hello")); --> we can add new item because it creates new List 
+-Convert ArrayList to Array
+	-Object[] obj = a.toArray();
+	-System.out.println(Arrays.toString(obj));
+-min, max
+	-If we have Array, we need to convert to ArrayList
+	-Only Wrapper datatypes can coverted to ArrayList. If we normal int first convert normal int to Integer.
+	-Collections.min(Arrays.asList(ia));
+	-Collections.max(Arrays.asList(ia));
+	
+	`ArraysDemo` `MergeArraysDemo`
+	
+#Generics
+-Generics means parameterized types. The idea is to allow a type (like Integer, String, etc., or user-defined types) to be a parameter to methods, classes, and interfaces. Generics in Java allow us to create classes, interfaces, and methods where the type of the data is specified as a parameter. If we use generics, we do not need to write multiple versions of the same code for different data types.
+-Types of Java Generics
+	-Generic Method
+	-Generic Class
+-Type Parameter Naming Conventions
+	The type parameters naming conventions are important to learn generics thoroughly. The common type parameters are as follows:
+	T: Type
+	E: Element
+	K: Key
+	N: Number
+	V: Value
+-Advantages of Generics
+	Code Reusability: We can write a method, class, or interface once and use it with any type.
+	Type Safety: Generics ensure that errors are detected at compile time rather than runtime, promoting safer code.
+	No Need for Type Casting: The compiler automatically handles casting, removing the need for explicit type casting when retrieving data.
+	`GenericsDemo` `GenericsMethodsDemo`
+#Wildcards:
+-Wildcards are used to represent an unknown type in generics. The ? symbol is the wildcard. 
+`Bounded Wildcards:`
+Wildcards can be bounded, allowing you to specify a range of acceptable types.
+	`Upper Bounded: ? extends Type`, allows the method to accept any list of the specified type or its subclasses (e.g., List<? extends Number>). 
+	`Lower Bounded: ? super Type`, allows the method to accept any list of the specified type or its superclasses (e.g., List<? super Integer>). 
+`Unbounded Wildcard:`
+? represents an unknown type, allowing the method to work with lists of any type. 
 	
